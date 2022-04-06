@@ -1,7 +1,7 @@
 [
     {
         "id": "ea5777ec-1374-470b-a0ca-08af99b31a7a",
-        "author": "Adobe Inc.",
+        "author": "slitviachenko",
         "name": "@adobe/generator-app-excshell",
         "description": "Extensibility template for generator-aio-app",
         "latestVersion": "0.2.0",
