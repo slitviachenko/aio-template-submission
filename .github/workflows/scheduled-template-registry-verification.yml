@@ -1,0 +1,45 @@
+name: Trigger Template Registry Verification on CRON Schedule
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  create_issue:
+    name: Create "Template Registry Verification" Issue
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    outputs:
+      issue-number: ${{ steps.issue.outputs.issue-number }}
+    steps:
+      - name: Create "Template Registry Verification" Issue
+        uses: actions/issue-bot-action@v3.3.6
+        id: issue
+        with:
+          labels: "verify-template-registry"
+          title: "Template Registry Verification"
+          body: |
+            # Template Registry Verification
+          pinned: false
+          close-previous: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  verify-template-registry:
+    name: Template Registry Verification
+    runs-on: ubuntu-latest
+    needs: [create_issue]
+    outputs:
+      error: ${{ steps.verify-template-registry.outputs.error }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Verify Template Registry
+        id: verify-template-registry
+        run: node src/verify-template-registry.js ${{ needs.create_issue.outputs.issue-number }}
