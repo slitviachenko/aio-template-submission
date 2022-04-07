@@ -18,7 +18,7 @@ jobs:
       issue-number: ${{ steps.issue.outputs.issue-number }}
     steps:
       - name: Create "Template Registry Verification" Issue
-        uses: actions/issue-bot-action@v3.3.6
+        uses: imjohnbo/issue-bot@v3.3.6
         id: issue
         with:
           labels: "verify-template-registry"
