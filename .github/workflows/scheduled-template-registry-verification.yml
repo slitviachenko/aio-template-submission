@@ -31,7 +31,7 @@ jobs:
           labels: "verify-template-registry"
           title: '"Template Registry Verification" (${{ steps.date.outputs.today }})'
           body: |
-            # Template Registry Verification
+            ### Template Registry Verification
           pinned: false
           close-previous: false
         env:
@@ -49,4 +49,4 @@ jobs:
         run: npm install
       - name: Verify Template Registry
         id: verify-template-registry
-        run: node src/verify-template-registry.js ${{ needs.create_issue.outputs.issue-number }}
+        run: node src/verify-template-registry.js ${{ needs.create_issue.outputs.issue-number }} ${{ secrets.GITHUB_TOKEN }}
