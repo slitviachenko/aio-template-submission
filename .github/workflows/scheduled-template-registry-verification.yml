@@ -6,7 +6,7 @@ defaults:
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '* * * * *'
 
 jobs:
   create_issue:
@@ -17,12 +17,16 @@ jobs:
     outputs:
       issue-number: ${{ steps.issue.outputs.issue-number }}
     steps:
+      - name: Get today's date
+        id: date
+        run: |
+          echo "::set-output name=today::$(date '+%m/%d/%Y')"
       - name: Create "Template Registry Verification" Issue
         uses: imjohnbo/issue-bot@v3.3.6
         id: issue
         with:
           labels: "verify-template-registry"
-          title: "Template Registry Verification"
+          title: '"Template Registry Verification" (${{ steps.date.outputs.today }})'
           body: |
             # Template Registry Verification
           pinned: false
