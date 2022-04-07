@@ -1,4 +1,4 @@
-name: Trigger Template Registry Verification on CRON Schedule
+name: Template Registry Verification
 
 defaults:
   run:
@@ -49,4 +49,6 @@ jobs:
         run: npm install
       - name: Verify Template Registry
         id: verify-template-registry
-        run: node src/verify-template-registry.js ${{ needs.create_issue.outputs.issue-number }} ${{ secrets.GITHUB_TOKEN }}
+        run: node src/verify-template-registry.js ${{ needs.create_issue.outputs.issue-number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

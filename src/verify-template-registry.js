@@ -3,13 +3,15 @@ import * as github from '@actions/github';
 import { getRegistry } from "./registry.js";
 
 const GITHUB_REPO = 'aio-template-submission';
-const GITHUB_REPO_OWNER = 'adobe';
+// const GITHUB_REPO_OWNER = 'adobe';
+const GITHUB_REPO_OWNER = 'slitviachenko';
 
 (async () => {
     try {
+        const githubToken = process.env.GITHUB_TOKEN;
+        console.log('githubToken', githubToken);
         const myArgs = process.argv.slice(2);
         const issueNumber = myArgs[0];
-        const githubToken = myArgs[1];
         const octokit = new github.getOctokit(githubToken);
         console.log('issueNumber', issueNumber);
 
