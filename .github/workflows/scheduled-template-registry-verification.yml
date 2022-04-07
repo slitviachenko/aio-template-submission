@@ -6,12 +6,15 @@ defaults:
 
 on:
   schedule:
-    - cron: '* * * * *'
+    - cron: '*/5 * * * *'
+  issue_comment:
+    types: [created]
 
 jobs:
   create_issue:
     name: Create "Template Registry Verification" Issue
     runs-on: ubuntu-latest
+    if: (github.event_name == 'issue_comment' && github.event.comment.body == '/check-registry')
     permissions:
       issues: write
     outputs:
