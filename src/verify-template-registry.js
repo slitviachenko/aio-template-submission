@@ -24,11 +24,7 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
                 'owner': GITHUB_REPO_OWNER,
                 'repo': GITHUB_REPO,
                 'issue_number': issueNumber,
-                'body': {
-                    packageName,
-                    npmUrl,
-                    gitHubUrl
-                }
+                'body': `Checking ${packageName} ${npmUrl} ${gitHubUrl}`
             });
             console.log('item', item);
         }

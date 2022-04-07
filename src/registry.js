@@ -13,12 +13,14 @@ const REGISTRY_JSON_FILE = __dirname + '/../registry.json';
  * @returns {void}
  */
 function saveRegistry(registry) {
+    const newData = JSON.stringify(registry, null, 4);
+
     // Validate registry.json
-    validateJson(registry);
+    validateJson(newData);
 
     // Write to registry.json
     try {
-        fs.writeFileSync(REGISTRY_JSON_FILE, registry);
+        fs.writeFileSync(REGISTRY_JSON_FILE, newData);
     } catch (e) {
         const errorMessage = ':x: Error occurred during writing to Template Registry.';
         throw new Error(errorMessage);
@@ -54,8 +56,7 @@ export function isInRegistry(templateName) {
 export function addToRegistry(item) {
     const registry = getRegistry();
     registry.push(item);
-    const newData = JSON.stringify(registry, null, 4);
-    saveRegistry(newData);
+    saveRegistry(registry);
 }
 
 /**
@@ -69,8 +70,7 @@ export function removeFromRegistry(templateName) {
     let index = registry.findIndex(item => item.name === templateName);
     if (index !== -1) {
         registry.splice(index, 1);
-        const newData = JSON.stringify(registry, null, 4);
-        saveRegistry(newData);
+        saveRegistry(registry);
     }
 }
 
