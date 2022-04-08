@@ -59,7 +59,7 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
             let comment = 'We are going to:\n';
             for (const item of data.packagesToUpdate) {
                 console.log(item)
-                comment += `- ${item.action} "${item.packageName}"`
+                comment += `- ${item.action} "${item.packageName}"\n`
             }
             await octokit.rest.issues.createComment({
                 'owner': GITHUB_REPO_OWNER,

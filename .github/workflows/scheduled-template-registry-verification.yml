@@ -72,6 +72,13 @@ jobs:
         run: node src/check-packages-validity.js ${{ needs.create-issue.outputs.issue-number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v8
+        with:
+          add: registry.json
+          default_author: github_actions
+          message: Update registry.json
+          push: true
   update-packages-info:
     name: Update packages information
     runs-on: ubuntu-latest
