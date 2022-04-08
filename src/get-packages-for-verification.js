@@ -9,7 +9,13 @@ import { getRegistry } from "./registry.js";
         const registry = getRegistry();
         for (const item of registry) {
             const packageName = item.name;
-            packages.packages.push(packageName);
+            const packageNpmUrl = item.links.npm;
+            const packageGithubUrl = item.links.github;
+            packages.packages.push({
+                packageName,
+                packageNpmUrl,
+                packageGithubUrl
+            });
         }
         core.setOutput('list', JSON.stringify(packages));
     } catch (e) {
