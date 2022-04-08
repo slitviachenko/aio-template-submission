@@ -32,7 +32,7 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
                 "github": `https://github.com/adobe/${uuid}`
             }
         };
-        addToRegistry(registryItem);
+        // addToRegistry(registryItem);
 
         const githubToken = process.env.GITHUB_TOKEN;
         const myArgs = process.argv.slice(2);
