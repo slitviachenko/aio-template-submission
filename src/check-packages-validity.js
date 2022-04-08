@@ -37,7 +37,7 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
         const githubToken = process.env.GITHUB_TOKEN;
         const myArgs = process.argv.slice(2);
         const issueNumber = myArgs[0];
-        // const octokit = new github.getOctokit(githubToken);
+        const octokit = new github.getOctokit(githubToken);
         console.log('issueNumber', issueNumber);
 
         const data = {
@@ -61,12 +61,12 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
                 console.log(item)
                 comment += `- ${item.action} "${item.packageName}"`
             }
-            // await octokit.rest.issues.createComment({
-            //     'owner': GITHUB_REPO_OWNER,
-            //     'repo': GITHUB_REPO,
-            //     'issue_number': issueNumber,
-            //     'body': comment
-            // });
+            await octokit.rest.issues.createComment({
+                'owner': GITHUB_REPO_OWNER,
+                'repo': GITHUB_REPO,
+                'issue_number': issueNumber,
+                'body': comment
+            });
         } else {
             await octokit.rest.issues.createComment({
                 'owner': GITHUB_REPO_OWNER,
