@@ -42,7 +42,7 @@ jobs:
     needs: [create-issue]
     outputs:
       error: ${{ steps.packages.outputs.error }}
-      packages: ${{ steps.packages.outputs.list }}
+      packages: ${{ steps.packages.outputs.data }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -50,7 +50,9 @@ jobs:
         run: npm install
       - name: Get packages that should be checked
         id: packages
-        run: node src/get-packages-for-verification.js
+        run: node src/get-packages-for-verification.js ${{ needs.create-issue.outputs.issue-number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   matrix:
     name: Test matrix
     runs-on: ubuntu-latest
