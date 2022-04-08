@@ -41,12 +41,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [create-issue]
     outputs:
-      branch-name: ${{ steps.branch.outputs.branch }}
+      branch-name: ${{ steps.branch.outputs.branch-name }}
     steps:
       - name: Get a branch name
         id: branch
         run: |
-          echo "::set-output name=branch::verify-template-registry-$(date '+%Y-%m-%d-%H-%M')"
+          echo "::set-output name=branch-name::verify-template-registry-$(date '+%Y-%m-%d-%H-%M')"
       - name: Create a new branch
         uses: peterjgrainger/action-create-branch@v2.2.0
         with:
