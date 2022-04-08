@@ -36,32 +36,51 @@ jobs:
           close-previous: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  get-packages:
-    name: Get packages that should be checked
+  create-branch:
+    name: Create a new branch to store registry.json changes
     runs-on: ubuntu-latest
     needs: [create-issue]
     outputs:
+      branch-name: ${{ steps.branch.outputs.branch }}
+    steps:
+      - name: Get a branch name
+        id: branch
+        run: |
+          echo "::set-output name=branch::verify-template-registry-$(date '+%Y-%m-%d-%H-%M')"
+      - name: Create a new branch
+        uses: peterjgrainger/action-create-branch@v2.2.0
+        with:
+          branch: ${{ steps.branch.outputs.branch-name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  check-packages-validity:
+    name: Get packages that should be checked
+    runs-on: ubuntu-latest
+    needs: [create-issue, create-branch]
+    outputs:
       error: ${{ steps.packages.outputs.error }}
-      packages: ${{ steps.packages.outputs.data }}
+      packages-to-update: ${{ steps.check-packages-validity.outputs.packages-to-update }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.create-branch.outputs.branch-name }}
       - name: Install dependencies
         run: npm install
       - name: Get packages that should be checked
-        id: packages
-        run: node src/get-packages-for-verification.js ${{ needs.create-issue.outputs.issue-number }}
+        id: check-packages-validity
+        run: node src/check-packages-validity.js ${{ needs.create-issue.outputs.issue-number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  matrix:
-    name: Test matrix
+  update-packages-info:
+    name: Update packages information
     runs-on: ubuntu-latest
-    needs: [get-packages]
+    needs: [check-packages-validity]
     strategy:
-      matrix: ${{ fromJSON(needs.get-packages.outputs.packages) }}
+      matrix: ${{ fromJSON(needs.check-packages-validity.outputs.packages-to-update) }}
     steps:
       - run: |
-          echo ${{ matrix.packages }}
+          echo ${{ matrix.packagesToUpdate }}
   verify-template-registry:
     name: Template Registry Verification
     runs-on: ubuntu-latest
