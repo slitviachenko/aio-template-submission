@@ -83,6 +83,7 @@ jobs:
     name: Update packages information
     runs-on: ubuntu-latest
     needs: [check-packages-validity]
+    if: ${{ needs.check-packages-validity.outputs.packages-to-update != '' }}
     strategy:
       matrix: ${{ fromJSON(needs.check-packages-validity.outputs.packages-to-update) }}
     steps:

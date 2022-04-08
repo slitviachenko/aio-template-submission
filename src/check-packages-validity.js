@@ -67,6 +67,7 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
                 'issue_number': issueNumber,
                 'body': comment
             });
+            core.setOutput('packages-to-update', JSON.stringify(data));
         } else {
             await octokit.rest.issues.createComment({
                 'owner': GITHUB_REPO_OWNER,
@@ -74,8 +75,8 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
                 'issue_number': issueNumber,
                 'body': ':white_check_mark: All template packages in Template Registry contain the latest information. Nothing to update.'
             });
+            core.setOutput('packages-to-update', '');
         }
-        core.setOutput('packages-to-update', JSON.stringify(data));
     } catch (e) {
         core.setOutput('error', `:x: ${e.message}`);
         throw e;
