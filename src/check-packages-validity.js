@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { getRegistry, addToRegistry } from "./registry.js";
+import { getRegistry, addToRegistry, removeFromRegistry } from './registry.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const GITHUB_REPO = 'aio-template-submission';
@@ -32,7 +32,7 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
                 "github": `https://github.com/adobe/${uuid}`
             }
         };
-        // addToRegistry(registryItem);
+        addToRegistry(registryItem);
 
         const githubToken = process.env.GITHUB_TOKEN;
         const myArgs = process.argv.slice(2);
@@ -51,15 +51,13 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
             data.packagesToUpdate.push({
                 'packageName': packageName,
                 'packageNpmUrl': packageNpmUrl,
-                'packageGithubUrl': packageGithubUrl,
-                'action': 'update'
+                'packageGithubUrl': packageGithubUrl
             });
         }
         if (data.packagesToUpdate.length > 0) {
             let comment = 'We are going to:\n';
             for (const item of data.packagesToUpdate) {
-                console.log(item)
-                comment += `- ${item.action} "${item.packageName}"\n`
+                comment += `- Update "${item.packageName}"\n`;
             }
             await octokit.rest.issues.createComment({
                 'owner': GITHUB_REPO_OWNER,
