@@ -6,6 +6,10 @@ import { v4 as uuidv4 } from 'uuid';
 const GITHUB_REPO = 'aio-template-submission';
 // const GITHUB_REPO_OWNER = 'adobe';
 const GITHUB_REPO_OWNER = 'slitviachenko';
+// const GITHUB_ASSIGNEE_USER = 'template-registry-api-bot';
+const GITHUB_ASSIGNEE_USER = 'template-registry-api-bot';
+const GITHUB_LABEL_TEMPLATE_REMOVAL = 'remove-template';
+const GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION = 'template-auto-verification';
 
 (async () => {
     try {
@@ -32,8 +36,9 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
                 "github": `https://github.com/adobe/${uuid}`
             }
         };
-        addToRegistry(registryItem);
+        // addToRegistry(registryItem);
 
+        // const githubUsername = process.env.GITHUB_USERNAME;
         const githubToken = process.env.GITHUB_TOKEN;
         const myArgs = process.argv.slice(2);
         const issueNumber = myArgs[0];
@@ -58,6 +63,15 @@ const GITHUB_REPO_OWNER = 'slitviachenko';
             let comment = 'We are going to:\n';
             for (const item of data.packagesToUpdate) {
                 comment += `- Update "${item.packageName}"\n`;
+                const issue = await octokit.rest.issues.create({
+                    'owner': GITHUB_REPO_OWNER,
+                    'repo': GITHUB_REPO,
+                    'title': `Remove ${item.packageName} as npm/github links are not valid anymore`,
+                    // 'assignees': [GITHUB_ASSIGNEE_USER],
+                    'labels': [GITHUB_LABEL_TEMPLATE_REMOVAL, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION],
+                    'body': `### "Name of NPM package"\n${item.packageName}`
+                });
+                console.log('issue', issue.data.number);
             }
             await octokit.rest.issues.createComment({
                 'owner': GITHUB_REPO_OWNER,

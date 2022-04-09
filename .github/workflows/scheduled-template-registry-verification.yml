@@ -71,7 +71,7 @@ jobs:
         id: check-packages-validity
         run: node src/check-packages-validity.js ${{ needs.create-issue.outputs.issue-number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ADOBE_BOT_GITHUB_TOKEN }}
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v8
         with:
