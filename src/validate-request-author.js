@@ -9,6 +9,8 @@ import fetch from 'node-fetch';
 
     // todo - revert
     // fetch('https://api.github.com/repos/adobe/aio-template-submission/issues?state=closed&labels=add-template&creator=' + userLogin)
+    console.log('https://api.github.com/repos/slitviachenko/aio-template-submission/issues?state=closed&labels=add-template&creator=' + userLogin);
+    console.log('npmLink', npmLink);
     fetch('https://api.github.com/repos/slitviachenko/aio-template-submission/issues?state=closed&labels=add-template&creator=' + userLogin)
       .then(response => {
         if (response.status !== 200) {
