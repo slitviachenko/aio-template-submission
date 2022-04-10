@@ -1,0 +1,18 @@
+name: Template Update Request
+description: Request to update template
+labels: [update-template]
+body:
+  - type: input
+    id: github_link
+    attributes:
+      label: '"Link to GitHub repo"'
+      placeholder: https://github.com/xxx
+    validations:
+      required: true
+  - type: input
+    id: npm_link
+    attributes:
+      label: '"Link to NPM package"'
+      placeholder: https://www.npmjs.com/package/xxx
+    validations:
+      required: true

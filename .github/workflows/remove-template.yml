@@ -58,7 +58,7 @@ jobs:
         with:
           add: registry.json
           default_author: github_actions
-          message: Remove ${{ needs.parse-issue-form-body.outputs.npm-package-name }} template from registry
+          message: Remove ${{ needs.parse-issue-form-body.outputs.npm-package-name }} template from Template Registry
           push: true
   success-close-issue:
     name: Close issue
@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: peter-evans/close-issue@v1
         with:
-          comment: "The template has been removed from the registry."
+          comment: "The template has been removed from Template Registry."
           token: ${{ secrets.GITHUB_TOKEN }}
   fail-removal-comment:
     name: Removal failed

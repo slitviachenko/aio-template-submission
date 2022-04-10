@@ -60,6 +60,25 @@ export function addToRegistry(item) {
 }
 
 /**
+ * Update the template item in Template Registry
+ *
+ * @param {object} item the updated template item as a json object
+ * @returns {void}
+ */
+export function updateInRegistry(item) {
+    const templateName = item.name;
+    const registry = getRegistry();
+    let index = registry.findIndex(record => record.name === templateName);
+    if (index !== -1) {
+        registry[index] = item;
+        saveRegistry(registry);
+    } else {
+        const errorMessage = ':x: Template with name `' + templateName + '` does not exist in Template Registry.';
+        throw new Error(errorMessage);
+    }
+}
+
+/**
  * Remove the template from Template Registry
  *
  * @param {string} templateName the template name
