@@ -5,6 +5,9 @@ import { isInRegistry, addToRegistry, getFromRegistry, updateInRegistry } from '
 import fs from 'fs';
 import YAML from 'yaml';
 
+const OPERATION_ADD = 'add';
+const OPERATION_UPDATE = 'update';
+
 // Simple script that collects template metadata and adds/updates it in/to the registry
 (async () => {
     try {
@@ -13,6 +16,15 @@ import YAML from 'yaml';
         const packagePath = myArgs[1];
         const gitHubUrl = myArgs[2];
         const npmUrl = myArgs[3];
+
+        const supportedOperations = [
+            OPERATION_ADD,
+            OPERATION_UPDATE
+        ];
+        if (!supportedOperations.includes(operation)) {
+            const errorMessage = `:x: Unsupported operation.`;
+            throw new Error(errorMessage);
+        }
 
         // Grab package.json data
         const packageJson = fs.readFileSync(packagePath + '/package.json', 'utf8');
@@ -59,9 +71,6 @@ import YAML from 'yaml';
             };
             addToRegistry(newTemplate);
             console.log('Template was added.', newTemplate);
-        } else {
-            const errorMessage = `:x: Unsupported operation.`;
-            throw new Error(errorMessage);
         }
     } catch (e) {
         core.setOutput('error', e.message);
