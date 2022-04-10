@@ -44,7 +44,7 @@ jobs:
     uses: ./.github/workflows/check-permissions-workflow.yml
     with:
       user-login: ${{ github.event.issue.user.login }}
-      npm-package: ${{ needs.parse-issue-form-body.outputs.npm-package-name }}
+      npm-package: ${{ needs.parse-issue-form-body.outputs.npm-package }}
   validate-template:
     needs: [parse-issue-form-body, check-permissions]
     if: ${{ always() && needs.parse-issue-form-body.result == 'success' && (needs.check-permissions.outputs.is-admin == 'true' || needs.check-permissions.outputs.is-owner == 'true') }}
@@ -52,7 +52,7 @@ jobs:
     with:
       github-link: ${{ needs.parse-issue-form-body.outputs.github-link }}
       npm-link: ${{ needs.parse-issue-form-body.outputs.npm-link }}
-      npm-package: ${{ needs.parse-issue-form-body.outputs.npm-package-name }}
+      npm-package: ${{ needs.parse-issue-form-body.outputs.npm-package }}
   update-template:
     name: Update template in registry
     runs-on: ubuntu-latest
@@ -75,7 +75,7 @@ jobs:
         with:
           add: registry.json
           default_author: github_actions
-          message: Update ${{ needs.parse-issue-form-body.outputs.npm-package-name }} template in Template Registry
+          message: Update ${{ needs.parse-issue-form-body.outputs.npm-package }} template in Template Registry
           push: true
   success-close-issue:
     name: Close issue
