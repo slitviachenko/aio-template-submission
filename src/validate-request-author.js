@@ -7,7 +7,9 @@ import fetch from 'node-fetch';
     const userLogin = myArgs[0];
     const npmLink = 'https://www.npmjs.com/package/' + myArgs[1];
 
-    fetch('https://api.github.com/repos/adobe/aio-template-submission/issues?state=closed&labels=add-template&creator=' + userLogin)
+    // todo - revert
+    // fetch('https://api.github.com/repos/adobe/aio-template-submission/issues?state=closed&labels=add-template&creator=' + userLogin)
+    fetch('https://api.github.com/repos/slitviachenko/aio-template-submission/issues?state=closed&labels=add-template&creator=' + userLogin)
       .then(response => {
         if (response.status !== 200) {
           let errorMessage = `The response code is ${response.status}`;
