@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 const GITHUB_REPO = 'aio-template-submission';
 // const GITHUB_REPO_OWNER = 'adobe';
 const GITHUB_REPO_OWNER = 'slitviachenko';
-// const GITHUB_ASSIGNEE_USER = 'template-registry-api-bot';
 const GITHUB_ASSIGNEE_USER = 'template-registry-api-bot';
 const GITHUB_LABEL_TEMPLATE_REMOVAL = 'remove-template';
 const GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION = 'template-auto-verification';
@@ -67,7 +66,7 @@ const GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION = 'template-auto-verification';
                     'owner': GITHUB_REPO_OWNER,
                     'repo': GITHUB_REPO,
                     'title': `Remove ${item.packageName} as npm/github links are not valid anymore`,
-                    // 'assignees': [GITHUB_ASSIGNEE_USER],
+                    'assignees': [GITHUB_ASSIGNEE_USER],
                     'labels': [GITHUB_LABEL_TEMPLATE_REMOVAL, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION],
                     'body': `### "Name of NPM package"\n${item.packageName}`
                 });

@@ -53,6 +53,7 @@ jobs:
         id: check-registry
         run: node src/check-registry.js ${{ needs.create-issue.outputs.issue-number }}
         env:
+          # GITHUB_TOKEN: ${{ secrets.ADOBE_BOT_GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: Debug
         run: |
