@@ -57,9 +57,12 @@ jobs:
   success-close-issue:
     name: Close issue
     runs-on: ubuntu-latest
-    needs: [check-registry]
+    needs: [create-issue, check-registry]
     if: ${{ always() && needs.check-registry.outputs.templates-to-process == '0' }}
     steps:
+      - name: Debug
+        run: |
+          echo ${{ needs.check-registry.outputs.templates-to-process }}
       - uses: peter-evans/close-issue@v1
         with:
           issue-number: ${{ needs.create-issue.outputs.issue-number }}
