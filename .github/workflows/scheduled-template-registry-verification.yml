@@ -62,6 +62,7 @@ jobs:
     steps:
       - uses: peter-evans/close-issue@v1
         with:
+          issue-number: ${{ needs.create-issue.outputs.issue-number }}
           comment: ":white_check_mark: All template packages in Template Registry are available and contain the latest information. Nothing to update."
           token: ${{ secrets.GITHUB_TOKEN }}
   registry-validation-failed-comment:
