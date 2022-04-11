@@ -23,8 +23,14 @@ export async function createRemoveIssue(githubToken, templateName) {
         'repo': GITHUB_REPO,
         'title': `Remove ${templateName} as npm/github links are not valid anymore`,
         'assignees': [GITHUB_ASSIGNEE_USER],
-        'labels': [GITHUB_LABEL_TEMPLATE_REMOVAL, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION],
+        // 'labels': [GITHUB_LABEL_TEMPLATE_REMOVAL, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION],
         'body': `### "Name of NPM package"\n${templateName}`
+    });
+    octokit.rest.issues.addLabels({
+        'owner': GITHUB_REPO_OWNER,
+        'repo': GITHUB_REPO,
+        'issue_number': response.data.number,
+        'labels': [GITHUB_LABEL_TEMPLATE_REMOVAL, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION]
     });
     return response.data.number;
 }
@@ -45,8 +51,14 @@ export async function createUpdateIssue(githubToken, templateName, templateLates
         'repo': GITHUB_REPO,
         'title': `Update ${templateName} as there is the newest ${templateLatestVersion} version`,
         'assignees': [GITHUB_ASSIGNEE_USER],
-        'labels': [GITHUB_LABEL_TEMPLATE_UPDATING, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION],
+        // 'labels': [GITHUB_LABEL_TEMPLATE_UPDATING, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION],
         'body': `### "Link to GitHub repo"\n${templateGithubUrl}\n### "Link to NPM package"\nhttps://www.npmjs.com/package/${templateName}`
+    });
+    octokit.rest.issues.addLabels({
+        'owner': GITHUB_REPO_OWNER,
+        'repo': GITHUB_REPO,
+        'issue_number': response.data.number,
+        'labels': [GITHUB_LABEL_TEMPLATE_UPDATING, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION]
     });
     return response.data.number;
 }
