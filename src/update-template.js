@@ -10,7 +10,7 @@ import YAML from 'yaml';
         const myArgs = process.argv.slice(2);
         const packagePath = myArgs[0];
         const gitHubUrl = myArgs[1];
-        const npmUrl = myArgs[2];
+        const npmUrl = 'https://www.npmjs.com/package/' + myArgs[2];
 
         // Grab package.json data
         const packageJson = fs.readFileSync(packagePath + '/package.json', 'utf8');

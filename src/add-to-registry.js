@@ -19,7 +19,7 @@ import YAML from 'yaml';
         const installYmlData = YAML.parse(installYml);
 
         const gitHubUrl = myArgs[1];
-        const npmUrl = myArgs[2];
+        const npmUrl = 'https://www.npmjs.com/package/' + myArgs[2];
 
         const adobeRecommended = await isAdobeRecommended(gitHubUrl);
 

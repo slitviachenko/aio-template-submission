@@ -1,8 +1,7 @@
 import * as github from '@actions/github';
 
 export const GITHUB_REPO = 'aio-template-submission';
-// export const GITHUB_REPO_OWNER = 'adobe';
-export const GITHUB_REPO_OWNER = 'slitviachenko';
+export const GITHUB_REPO_OWNER = 'adobe';
 const GITHUB_LABEL_TEMPLATE_REMOVAL = 'remove-template';
 const GITHUB_LABEL_TEMPLATE_UPDATING = 'update-template';
 const GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION = 'template-auto-verification';
