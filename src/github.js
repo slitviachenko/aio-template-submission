@@ -3,8 +3,6 @@ import * as github from '@actions/github';
 export const GITHUB_REPO = 'aio-template-submission';
 // export const GITHUB_REPO_OWNER = 'adobe';
 export const GITHUB_REPO_OWNER = 'slitviachenko';
-// const GITHUB_ASSIGNEE_USER = 'template-registry-api-bot';
-const GITHUB_ASSIGNEE_USER = 'slitviachenko';
 const GITHUB_LABEL_TEMPLATE_REMOVAL = 'remove-template';
 const GITHUB_LABEL_TEMPLATE_UPDATING = 'update-template';
 const GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION = 'template-auto-verification';
@@ -22,7 +20,6 @@ export async function createRemoveIssue(githubToken, templateName) {
         'owner': GITHUB_REPO_OWNER,
         'repo': GITHUB_REPO,
         'title': `Remove ${templateName} as npm/github links are not valid anymore`,
-        'assignees': [GITHUB_ASSIGNEE_USER],
         'labels': [GITHUB_LABEL_TEMPLATE_REMOVAL, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION],
         'body': `### "Name of NPM package"\n${templateName}`
     });
@@ -44,9 +41,8 @@ export async function createUpdateIssue(githubToken, templateName, templateLates
         'owner': GITHUB_REPO_OWNER,
         'repo': GITHUB_REPO,
         'title': `Update ${templateName} as there is the newest ${templateLatestVersion} version`,
-        'assignees': [GITHUB_ASSIGNEE_USER],
         'labels': [GITHUB_LABEL_TEMPLATE_UPDATING, GITHUB_LABEL_TEMPLATE_AUTO_VERIFICATION],
-        'body': `### "Link to GitHub repo"\n${templateGithubUrl}\n### "Link to NPM package"\nhttps://www.npmjs.com/package/${templateName}`
+        'body': `### "Link to GitHub repo"\n${templateGithubUrl}\n### "Name of NPM package"\n${templateName}`
     });
     return response.data.number;
 }

@@ -17,7 +17,6 @@ jobs:
     if: (github.event.label.name == 'update-template') || (github.event_name == 'issue_comment' && github.event.comment.body == '/update')
     outputs:
       github-link: ${{ steps.issue-input.outputs.github-link }}
-      npm-link: ${{ steps.issue-input.outputs.npm-link }}
       npm-package: ${{ steps.issue-input.outputs.npm-package }}
     steps:
       - name: Parse Issue Form Body
@@ -34,10 +33,7 @@ jobs:
         run: |
           github_link=$(echo '${{ steps.issue-payload.outputs.payload }}' | jq '."Link to GitHub repo"')
           echo "::set-output name=github-link::$github_link"
-          npm_link=$(echo '${{ steps.issue-payload.outputs.payload }}' | jq '."Link to NPM package"')
-          echo "::set-output name=npm-link::$npm_link"
-          npm_package_path="https://www.npmjs.com/package/"
-          npm_package="${npm_link/$npm_package_path/}"
+          npm_package=$(echo '${{ steps.issue-payload.outputs.payload }}' | jq '."Name of NPM package"')
           echo "::set-output name=npm-package::$npm_package"
   check-permissions:
     needs: [parse-issue-form-body]
@@ -51,7 +47,7 @@ jobs:
     uses: ./.github/workflows/validate-template-workflow.yml
     with:
       github-link: ${{ needs.parse-issue-form-body.outputs.github-link }}
-      npm-link: ${{ needs.parse-issue-form-body.outputs.npm-link }}
+      npm-link: https://www.npmjs.com/package/${{ needs.parse-issue-form-body.outputs.npm-package }}
       npm-package: ${{ needs.parse-issue-form-body.outputs.npm-package }}
   update-template:
     name: Update template in registry
@@ -69,7 +65,7 @@ jobs:
         id: run-update-template
         run: |
           npm v ${{ needs.parse-issue-form-body.outputs.npm-package }} dist.tarball | xargs curl | tar -xz
-          node src/update-template.js $GITHUB_WORKSPACE/package ${{ needs.parse-issue-form-body.outputs.github-link }} ${{ needs.parse-issue-form-body.outputs.npm-link }}
+          node src/update-template.js $GITHUB_WORKSPACE/package ${{ needs.parse-issue-form-body.outputs.github-link }} https://www.npmjs.com/package/${{ needs.parse-issue-form-body.outputs.npm-package }}
       - name: Commit and push changes
         uses: EndBug/add-and-commit@v8
         with:

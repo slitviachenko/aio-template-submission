@@ -6,7 +6,10 @@ defaults:
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    # At 04:20 each day
+    - cron: "20 4 * * *"
+
+  # TODO: for testing, remove later
   issue_comment:
     types: [created]
 
@@ -14,8 +17,10 @@ jobs:
   create-issue:
     name: Create "Template Registry Verification" Issue
     runs-on: ubuntu-latest
-    # TODO: for debugging, remove
-    if: (github.event_name == 'issue_comment' && github.event.comment.body == '/debug-registry-verification')
+
+    # TODO: for testing, remove later
+    if: (github.event_name == 'issue_comment' && github.event.comment.body == '/test-registry-verification')
+
     permissions:
       issues: write
     outputs:
@@ -29,16 +34,16 @@ jobs:
         uses: imjohnbo/issue-bot@v3.3.6
         id: issue
         with:
-          labels: "verify-template-registry"
+          labels: "verify-template-registry, template-auto-verification"
           title: '"Template Registry Verification" (${{ steps.date.outputs.today }})'
           body: |
             ### Template Registry Verification
           pinned: false
-          close-previous: false
+          close-previous: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   check-registry:
-    name: Create issues to remove unavailable packages, and to update packages that have newest versions
+    name: Create issues to remove unavailable templates, and to update templates that have newest versions
     runs-on: ubuntu-latest
     needs: [create-issue]
     outputs:
@@ -53,11 +58,7 @@ jobs:
         id: check-registry
         run: node src/check-registry.js ${{ needs.create-issue.outputs.issue-number }}
         env:
-          # GITHUB_TOKEN: ${{ secrets.ADOBE_BOT_GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      - name: Debug
-        run: |
-          echo ${{ steps.check-registry.outputs.templates-to-process }}
+          GITHUB_TOKEN: ${{ secrets.ADOBE_BOT_GITHUB_TOKEN }}
   success-close-issue:
     name: Close issue if there are no templates to process
     runs-on: ubuntu-latest

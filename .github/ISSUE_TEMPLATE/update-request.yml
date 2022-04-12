@@ -10,9 +10,8 @@ body:
     validations:
       required: true
   - type: input
-    id: npm_link
+    id: npm_name
     attributes:
-      label: '"Link to NPM package"'
-      placeholder: https://www.npmjs.com/package/xxx
+      label: '"Name of NPM package"'
     validations:
       required: true

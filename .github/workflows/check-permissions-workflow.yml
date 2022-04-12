@@ -31,7 +31,7 @@ jobs:
       error: ${{ steps.is-admin.outputs.error }}
       is-admin: ${{ steps.is-admin.outputs.is-admin }}
     steps:
-      - name: Validate creator of removal request is admin
+      - name: Validate creator of request is admin
         id: is-admin
         env:
           USERNAME: ${{ secrets.ADOBE_BOT_GITHUB_USERNAME }}
