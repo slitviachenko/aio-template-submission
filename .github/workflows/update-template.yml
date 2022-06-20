@@ -74,6 +74,7 @@ jobs:
           default_author: github_actions
           message: Update ${{ needs.parse-issue-form-body.outputs.npm-package }} template in Template Registry
           push: true
+          pull: '--rebase'
   success-close-issue:
     name: Close issue
     runs-on: ubuntu-latest
